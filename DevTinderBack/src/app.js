@@ -9,10 +9,10 @@ const userAuth = require("./middlewares/auth");
 const User = require("./models/user");
 
 app.use(cors({
-   origin:"https://devtinder-frontend-fwwl.onrender.com",
-  //  methods: ["GET", "POST", "PATCH", "PUT", "DELETE","OPTIONS"],
-   credentials:true,
-  //  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+  origin:"https://devtinder-frontend-fwwl.onrender.com",
+  credentials:true,
+  methods: ["GET", "POST", "PATCH", "PUT", "DELETE","OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
   // exposedHeaders: ["Content-Type", "Authorization"],
 }));
 app.use(express.json());
