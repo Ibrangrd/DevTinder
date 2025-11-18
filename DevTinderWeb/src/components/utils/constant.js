@@ -8,9 +8,16 @@ export default BASE_URL;
 
 export const createSocketConnection = () =>{
   if(location.hostname==="localhost"){
-  return  io(BASE_URL);
+  return  io(BASE_URL,{
+    withCredentials:true,
+    transports:["websocket"],
+  });
   }
   else{
-    return io("/",{ path:"/api/socket.io"});
+    return io("https://devtinder-q7ng.onrender.com",{
+      withCredentials:true,
+      transports:["websocket"],
+      path: "/socket.io",
+    });
   }
 };
