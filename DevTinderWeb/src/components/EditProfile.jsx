@@ -3,8 +3,8 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Card from "./Card";
 import axios from "axios";
-import { addUser } from "../utils/userSlice";
-import BASE_URL from "../utils/constant";
+import { addUser } from "./utils/userSlice";
+import BASE_URL from "./utils/constant";
 
 const EditProfile = ({ data }) => {
   const dispatch = useDispatch();

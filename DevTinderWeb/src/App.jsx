@@ -5,9 +5,10 @@ import Login from './components/Login'
 import Profile from './components/Profile'
 import Request from './components/Request'
 import { Provider } from 'react-redux'
-import appStore from './utils/appStore'
+import appStore from './/components/utils/appStore'
 import Feed from './components/Feed'
 import Connections from './components/Connections'
+import Chat from './components/Chat'
 const App = () => {
   return (
     <div>
@@ -21,6 +22,7 @@ const App = () => {
       <Route path='/profile' element={<Profile/>}/>
       <Route path='/connections' element={<Connections/>}/>
       <Route path='/request' element={<Request/>}/>
+      <Route path='/chat/:targetUserId' element={<Chat/>}/>
       </Route>
     </Routes>
     </BrowserRouter>

@@ -1,8 +1,8 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import BASE_URL from '../utils/constant'
+import BASE_URL from './utils/constant'
 import { useDispatch, useSelector } from 'react-redux'
-import { addRequest } from '../utils/requestSlice'
+import { addRequest } from './utils/requestSlice'
 import RequestCard from './RequestCard'
 
 const Request = () => {

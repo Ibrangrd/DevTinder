@@ -1,9 +1,9 @@
 import axios from "axios";
 import React, { useEffect } from "react";
-import BASE_URL from "../utils/constant";
+import BASE_URL from "./utils/constant";
 import ConnectionCards from "./ConnectionCards";
 import { useDispatch, useSelector } from "react-redux";
-import {addconnections} from "../utils/connectionsSlice";
+import {addconnections} from "./utils/connectionsSlice";
 const Connections = () => {
 
   const dispatch = useDispatch();
