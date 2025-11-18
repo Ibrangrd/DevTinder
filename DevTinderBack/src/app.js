@@ -7,9 +7,12 @@ const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const userAuth = require("./middlewares/auth");
 const User = require("./models/user");
+const http = require("http");
+const { Socket } = require("socket.io");
+const initializeSocket = require("./utils/socket");
 
 app.use(cors({
-  origin:"https://devtinder-frontend-fwwl.onrender.com",
+  origin:["https://devtinder-frontend-fwwl.onrender.com","http://localhost:5173"],
   credentials:true,
   methods: ["GET", "POST", "PATCH", "PUT", "DELETE","OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
@@ -22,11 +25,13 @@ const authRouter = require("./router/auth");
 const profileRouter = require("./router/profile");
 const requestRouter = require("./router/request");
 const userRouter = require("./router/user");
+const chatRouter = require("./router/chat");
 
 app.use(authRouter);
 app.use(profileRouter);
 app.use(requestRouter);
 app.use(userRouter);
+app.use(chatRouter);
 // app.post("/sendConnections",userAuth,(req,res)=>{
 //    const user = req.user;
 //    console.log("Sending Connection Request");
@@ -81,10 +86,12 @@ app.use(userRouter);
 
 // })
 
+const server = http.createServer(app);
+initializeSocket(server);
 connectDB()
 .then(()=>{
     console.log("DataBase connection Established....");
-    app.listen(process.env.PORT,()=>{
+    server.listen(process.env.PORT,()=>{
     console.log("Server succesfully run")
 });
 })

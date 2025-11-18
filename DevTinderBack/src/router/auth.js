@@ -39,8 +39,10 @@ authRouter.post("/signup", async (req, res) => {
     // res.cookie("token",token);
     res.cookie("token", token, {
       httpOnly: true,
-      secure: true, // important in deployed (https)
-      sameSite: "none", // important for cross domain
+      // secure: true, // important in deployed (https)
+      // sameSite: "none", // important for cross domain
+      secure: process.env.NODE_ENV === "production", // true only online
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     });
     res.send(user);
   } catch (err) {
@@ -64,8 +66,10 @@ authRouter.post("/login", async (req, res) => {
       // res.cookie("token", token);
       res.cookie("token", token, {
         httpOnly: true,
-        secure: true, // important in deployed (https)
-        sameSite: "none", // important for cross domain
+        // secure: true, // important in deployed (https)
+        // sameSite: "none", // important for cross domain
+        secure: process.env.NODE_ENV === "production", // true only online
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       });
       res.send(user);
     }
