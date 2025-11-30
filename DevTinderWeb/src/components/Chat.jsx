@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect,useRef } from "react";
 import BASE_URL, { createSocketConnection } from "./utils/constant";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -11,7 +11,7 @@ const Chat = () => {
   const user = useSelector((store) => store.user);
   const userId = user?._id;
   const firstName = user?.firstName;
-
+  const scrollRef = useRef(null);
   const fetchChatMessages = async () => {
     const data = await axios.get(BASE_URL + "/chat/" + targetUserId, {
       withCredentials: true,
@@ -32,6 +32,13 @@ const Chat = () => {
   useEffect(() => {
     fetchChatMessages();
   }, []);
+  
+   useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
+
 
   useEffect(() => {
     if (!userId) return;
@@ -59,12 +66,10 @@ const Chat = () => {
 
   return (
     <div className="w-full sm:w-3/4 lg:w-1/2 mx-auto border border-gray-600 m-2 sm:m-5 h-[85vh] sm:h-[70vh] flex flex-col rounded-lg overflow-hidden">
-      {/* Header */}
       <div className="p-4 sm:p-5 border-b border-gray-600 bg-gray-800 text-white">
         <h1 className="text-lg sm:text-xl font-semibold">Chat</h1>
       </div>
 
-      {/* Chat Messages */}
       <div className="flex-1 overflow-y-auto p-3 sm:p-5 space-y-3">
         {messages.map((msg, index) => {
           return (
@@ -85,9 +90,8 @@ const Chat = () => {
             </div>
           );
         })}
+      <div ref={scrollRef}></div>
       </div>
-
-      {/* Input Box */}
       <div className="p-3 sm:p-5 border-t border-gray-600 flex items-center gap-2 bg-gray-900">
         <input
           value={newMessage}
