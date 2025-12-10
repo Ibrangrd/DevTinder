@@ -47,6 +47,8 @@ const Login = () => {
         return navigate("/profile");
       } catch (err) {
         seterrorMes("ERROR: " + err?.response?.data);
+        console.log("Hi");
+        console.log(err);
       }
     }
   };

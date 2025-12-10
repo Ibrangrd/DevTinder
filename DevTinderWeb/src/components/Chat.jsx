@@ -11,7 +11,9 @@ const Chat = () => {
   const user = useSelector((store) => store.user);
   const userId = user?._id;
   const firstName = user?.firstName;
+  const lastName = user?.lastName;
   const scrollRef = useRef(null);
+  const socketRef = useRef(null);
   const fetchChatMessages = async () => {
     const data = await axios.get(BASE_URL + "/chat/" + targetUserId, {
       withCredentials: true,
@@ -31,7 +33,7 @@ const Chat = () => {
 
   useEffect(() => {
     fetchChatMessages();
-  }, []);
+  }, [targetUserId]);
   
    useEffect(() => {
     if (scrollRef.current) {
@@ -43,24 +45,29 @@ const Chat = () => {
   useEffect(() => {
     if (!userId) return;
     const socket = createSocketConnection();
+    socketRef.current = socket;
     socket.emit("joinChat", { firstName, userId, targetUserId });
 
-    socket.on("newMessageReceived", ({ firstName, text }) => {
-      setmessages((messages) => [...messages, { firstName, text }]);
+    socket.on("newMessageReceived", ({sender, firstName,lastName, text }) => {
+      setmessages((messages) => [...messages, {sender ,firstName,lastName, text }]);
     });
 
     return () => socket.disconnect();
   }, [userId, targetUserId]);
 
   const sendMessage = () => {
-    const socket = createSocketConnection();
-    socket.emit("sendMessage", {
+  // const socket = createSocketConnection();
+    socketRef.current.emit("sendMessage", {
       firstName,
+      lastName,
       userId,
       targetUserId,
       text: newMessage,
     });
-
+    //  setmessages((prev) => [
+    //   ...prev,
+    //   { sender: userId, firstName, text: newMessage },
+    // ]);
     setnewMessage("");
   };
 
