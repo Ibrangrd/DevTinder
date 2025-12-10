@@ -18,7 +18,7 @@ const Chat = () => {
     const data = await axios.get(BASE_URL + "/chat/" + targetUserId, {
       withCredentials: true,
     });
-
+    
     const chatMessage = data?.data?.messages.map((res) => {
       const { senderId, text } = res;
       return {
@@ -35,6 +35,9 @@ const Chat = () => {
     fetchChatMessages();
   }, [targetUserId]);
   
+  const ChatHeading = messages.find((res )=>{
+    return (user._id !== res?.sender )
+  })
    useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollIntoView({ behavior: "smooth" });
@@ -72,9 +75,9 @@ const Chat = () => {
   };
 
   return (
-    <div className="w-full sm:w-3/4 lg:w-1/2 mx-auto border border-gray-600 m-2 sm:m-5 h-[85vh] sm:h-[70vh] flex flex-col rounded-lg overflow-hidden">
+    <div className="w-[90%] sm:w-1/2 mx-auto border sm:ml-96 border-gray-600 m-2 sm:m-5 h-[85vh] sm:h-[70vh] flex flex-col rounded-lg overflow-hidden">
       <div className="p-4 sm:p-5 border-b border-gray-600 bg-gray-800 text-white">
-        <h1 className="text-lg sm:text-xl font-semibold">Chat</h1>
+        <p className="text-lg sm:text-xl font-semibold">{ChatHeading?.firstName} {ChatHeading?.lastName} </p>
       </div>
 
       <div className="flex-1 overflow-y-auto p-3 sm:p-5 space-y-3">
