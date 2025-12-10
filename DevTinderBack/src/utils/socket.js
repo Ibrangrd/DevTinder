@@ -29,11 +29,11 @@ const initializeSocket = (server) => {
     });
     socket.on(
       "sendMessage",
-      async ({ firstName, userId, targetUserId, text }) => {
+      async ({ firstName,lastName, userId, targetUserId, text }) => {
         try {
           const roomId = secretRoomId(userId, targetUserId);
           // console.log(firstName+" "+text);
-          io.to(roomId).emit("newMessageReceived", { firstName, text });
+          io.to(roomId).emit("newMessageReceived", {sender:userId, firstName,lastName, text });
 
             let chat = await  Chat.findOne({
             participants: { $all: [userId, targetUserId] },

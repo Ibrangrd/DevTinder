@@ -5,7 +5,11 @@ const validationSignUpData = require("../utils/validation");
 const bcrypt = require("bcrypt");
 
 authRouter.post("/signup", async (req, res) => {
-  validationSignUpData(req);
+  const isOkay  = validationSignUpData(req);
+  if(isOkay!=null){
+    res.status(400).send(isOkay);
+    return;
+  } 
   const {
     firstName,
     lastName,
